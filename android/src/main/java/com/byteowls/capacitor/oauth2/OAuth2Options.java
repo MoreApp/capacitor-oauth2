@@ -20,6 +20,7 @@ public class OAuth2Options {
     private String accessTokenEndpoint;
     private String resourceUrl;
 
+    private boolean logsEnabled;
     private boolean pkceEnabled;
     private String pkceCodeVerifier;
     private Map<String, String> additionalParameters;
@@ -187,5 +188,13 @@ public class OAuth2Options {
 
     public void setHandleResultOnActivityResult(boolean handleResultOnActivityResult) {
         this.handleResultOnActivityResult = handleResultOnActivityResult;
+    }
+
+    public boolean isLogsEnabled() {
+        return logsEnabled;
+    }
+
+    public void setLogsEnabled(boolean logsEnabled) {
+        this.logsEnabled = logsEnabled;
     }
 }

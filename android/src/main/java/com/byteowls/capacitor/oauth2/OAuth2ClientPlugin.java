@@ -360,7 +360,7 @@ public class OAuth2ClientPlugin extends Plugin {
                         this.authService.performTokenRequest(tokenExchangeRequest, (accessTokenResponse, exception) -> {
                             authState.update(accessTokenResponse, exception);
                             if (exception != null) {
-                                savedCall.reject(ERR_AUTHORIZATION_FAILED, exception);
+                                savedCall.reject(exception.getMessage());
                             } else {
                                 if (accessTokenResponse != null) {
                                     if (oauth2Options.getResourceUrl() != null) {
@@ -375,7 +375,7 @@ public class OAuth2ClientPlugin extends Plugin {
                             }
                         });
                     } catch (Exception e) {
-                        savedCall.reject(ERR_NO_AUTHORIZATION_CODE, e);
+                        savedCall.reject(e.getMessage());
                     }
                 } else {
                     createJsObjAndResolve(savedCall, authorizationResponse.jsonSerializeString());
@@ -409,6 +409,7 @@ public class OAuth2ClientPlugin extends Plugin {
         o.setRedirectUrl(ConfigUtils.trimToNull(ConfigUtils.getOverwrittenAndroidParam(String.class, callData, PARAM_REDIRECT_URL)));
 
         // optional
+        o.setLogsEnabled(true);
         o.setResourceUrl(ConfigUtils.trimToNull(ConfigUtils.getOverwrittenAndroidParam(String.class, callData, PARAM_RESOURCE_URL)));
         o.setAccessTokenEndpoint(ConfigUtils.trimToNull(ConfigUtils.getOverwrittenAndroidParam(String.class, callData, PARAM_ACCESS_TOKEN_ENDPOINT)));
         Boolean pkceEnabledObj = ConfigUtils.getOverwrittenAndroidParam(Boolean.class, callData, PARAM_PKCE_ENABLED);
